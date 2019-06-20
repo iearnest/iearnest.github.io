@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="description" content="" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | iearnest blog</title>
+<title>记一次前端跨域请求问题解决 | iearnest blog</title>
 <link rel="shortcut icon" href="https://iearnest.github.io/favicon.ico?v=1561035496311">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <link rel="stylesheet" href="https://iearnest.github.io/styles/main.css">
@@ -72,17 +72,35 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              关于
+              记一次前端跨域请求问题解决
             </h2>
             <div class="post-info">
               <time class="post-time">
-                · 2019-01-25 ·
+                · 2019-06-20 ·
               </time>
               
             </div>
             
             <div class="post-content">
-              <p>不断学习，不断进步！</p>
+              <p>先说我使用的解决方法。</p>
+<h2 id="前端请求修改">前端请求修改</h2>
+<pre><code>return request(`http://localhost:8080/api/testapi`,{
+    method: 'GET',
+    mode: &quot;cors&quot;,
+  });
+</code></pre>
+<h2 id="服务端返回修改">服务端返回修改</h2>
+<pre><code>resp.setHeader(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;); 
+resp.setHeader(&quot;Access-Control-Request-Method&quot;, &quot;POST,GET&quot;);
+resp.setHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;); 
+resp.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;Content-Type,X-Requested-With&quot;);
+</code></pre>
+<h2 id="fetch请求的三种mode">fetch请求的三种mode</h2>
+<ul>
+<li>same-origin 在同域下请求</li>
+<li>cors 在同域和带有CORS响应头的跨域下可以请求成功</li>
+<li>no-cors 常用于在跨域不带CORS场景下， 此时请求发出并且会有响应，但是此时type为“opaque”， status为0 ，js获取不到返回数据</li>
+</ul>
 
             </div>
           </article>
